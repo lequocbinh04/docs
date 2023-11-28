@@ -1,0 +1,40 @@
+---
+title: 'Coupon'
+description: 'Integrate coupon functionality into your application.'
+---
+## Prerequisite
+Setup **coupon validate** endpoint when you register your application with KB2A. Then when you allow user to use coupon in transaction, KB2A server will call to your endpoint to validate coupon.
+
+```
+Example endpoint: https://[your-domain]/v1/coupon/validate
+```
+
+Example request body from `KB2A Server`
+```json
+{
+    "coupon_code": "1234567890",
+    "transaction_id": "MZ3847105723620",
+}
+```
+
+## Response Field
+<ResponseField name="is_valid" type="boolean" required>
+    Indicate whether coupon is valid or not.
+</ResponseField>
+<ResponseField name="discount_type" type="enum" required>
+    Indicate discount type of coupon `amount` or `percent`
+</ResponseField>
+
+<ResponseField name="discount_value" type="float64" required>
+    Indicate discount value of coupon `vnd` or `%`
+</ResponseField>
+
+### Example response body
+```json
+{
+    "is_valid": true,
+    "discount_type": "amount",
+    "discount_value": 10000
+}
+```
+

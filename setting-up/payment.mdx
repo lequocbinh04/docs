@@ -1,0 +1,61 @@
+---
+title: 'Payment'
+description: 'Learn how to integrate payment with KB2A Account'
+---
+
+<Info>
+  **Prerequisite** You should register merchant with **KB2A** first.
+</Info>
+
+<img
+  className="rounded-xl"
+  src="/images/flow.png"
+  alt="Flow"
+/>
+
+**Step 1.** Make sure that you have all below information:
+
+|     Name     |       Description        |
+|--------------|--------------------------|
+| `Merchant key` | Key to identify your website          |
+| `Secret key`   | Key to sign your message |
+| `Checksum key` | Key to verify message    |
+
+**Step 2.** Create a new transaction with below api:
+
+ <Card
+    title="Payment"
+    icon="credit-card"
+    href="/api-reference/endpoint/payment"
+  >
+    Create new transaction
+  </Card>
+
+**Step 3.** After create transaction successfully, you will get a `payment_url` in response. Redirect to this url to complete payment.
+
+**Step 4.** User will continue payment process on **KB2A website**. After complete payment, user will be redirected to your website with below params:
+|     Name     |       Description        |
+|--------------|--------------------------|
+| `result`     | Base64 encoded of json result    |
+| `checksum`   | Checksum of above json with `Checksum key` |
+
+Then you will need to send the data to server, at the server you **MUST** verify the checksum to make sure that the data is not modified. Sample code:
+
+```go validateChecksum.go
+dataToHash := result + CHECKSUM_KEY
+hash := sha256.Sum256([]byte(dataToHash))
+sha256Data := fmt.Sprintf("%X", hash)
+
+if !strings.EqualFold(checksum, sha256Data) {
+  return "", fmt.Errorf("checksum not match")
+}
+// do something with result
+```
+
+**Step 5.** KB2A server will call Merchant server at the same time. Data: `result` and `checksum`
+
+**Step 6.** After verify the checksum, merchant will continue to process the data.
+
+<Warning>
+KB2A server will not callback if transactions is expired.
+</Warning>

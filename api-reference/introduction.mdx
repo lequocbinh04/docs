@@ -1,33 +1,27 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Below is guide to use API Endpoint of KB2A'
 ---
 
 <Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
+  If you are familiar with KB2A API, you can skip this section and go to the next section.
 </Note>
 
 ## Welcome
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
-
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+The Endpoint of KB2A are
+| Name        | Domain                                |
+| --------    | ------------------------------------- |
+| Sandbox     |  `Comming soon`                       |
+| Production  | `https://api-account.kb2a.vn/v1`         |
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
-
+All API endpoints are authenticated using **Bearer tokens** or **Cookies**.
 ```json
-"security": [
-  {
-    "bearerAuth": []
+{
+  "headers": {
+    "X-KB2A-Authenticate": "v4.public.eyJ..."
   }
-]
+}
 ```

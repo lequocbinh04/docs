@@ -1,0 +1,48 @@
+---
+title: 'Login'
+description: 'Integrate login for your app with KB2A.'
+---
+
+## Setup your Application
+
+First please DM me via [@Cris](https://t.me/crisne99) on Telegram to approve your domain.
+
+Currently, we support **2 domains** below:
+- [kb2a.vn](https://kb2a.vn)
+- [mindzone.me](https://mindzone.me)
+
+## Integrate your application to with KB2A
+### Frontend
+You can implement login with KB2A as flow below:
+<Steps>
+  <Step title="First Step">
+    Validate with you server to check if user is logged in or not.
+  </Step>
+  <Step title="Second Step">
+    If user is not logged in, redirect user to KB2A login page, with `to` query param is your app's login page (or any page you want to redirect user after login).
+
+    E.g: `https://kb2a.vn/login?to=https://mindzone.me/callback/login`
+  </Step>
+  <Step title="Third Step">
+    When user logged in, KB2A will redirect user to `to` query param with `token` query param. Then you will show a loading screen and send `token` to your server to validate.
+
+    E.g: `https://mindzone.me/callback/login?token=v4.public.eyJ....`
+  </Step>
+</Steps>
+### Backend
+Create an endpoint that receive `token` from frontend and validate it with KB2A API (Get me query). 
+If the token is valid, check if user exists in your database or not. If not, create a new user with information from KB2A API. Then set the token to cookie name `account`.
+
+<Warning>
+Remember:
+- Must set `httpOnly` to `true` when set cookie. This will prevent XSS attack.
+- Must set `secure` to `true` when set cookie. This will prevent MITM attack.
+- Create a middleware to handle token, the information like `avatar`, `name`, `email` must be query from KB2A through gRPC.
+- Must validate `Referer` or `Origin` header to prevent CSRF attack.
+</Warning>
+
+<CardGroup cols="1">
+<Card title="Get Me" icon="user" href="/api-reference/endpoint/me">
+  Get information of current user by access token.
+</Card>
+</CardGroup>
