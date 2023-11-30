@@ -3,10 +3,13 @@ title: 'Coupon'
 description: 'Integrate coupon functionality into your application.'
 ---
 ## Prerequisite
+<Warning>
+Your coupon code should not start with `RR` prefix. This prefix is reserved for referral code.
+</Warning>
 Setup **coupon validate** endpoint when you register your application with KB2A. Then when you allow user to use coupon in transaction, KB2A server will call to your endpoint to validate coupon.
 
 ```
-Example endpoint: https://[your-domain]/v1/coupon/validate
+POST https://[your-domain]/v1/coupon/validate
 ```
 
 Example request body from `KB2A Server`
@@ -37,4 +40,9 @@ Example request body from `KB2A Server`
     "discount_value": 10000
 }
 ```
+## Release Coupon
 
+When user use coupon on KB2A Payment, we will call to your endpoint to lock coupon code (decrease coupon quantity by 1, ... based on your business logic).
+When the transaction is expired or user remove coupon from transaction, we will call to your endpoint to release coupon code (increase coupon quantity by 1, ... based on your business logic).
+
+We will call to the same endpoint that you setup for **coupon validate** endpoint. The only difference is method type. When we call to your endpoint to release coupon, we will use `DELETE` method instead of `POST` method.

@@ -55,7 +55,3 @@ if !strings.EqualFold(checksum, sha256Data) {
 **Step 5.** KB2A server will call Merchant server at the same time. Data: `result` and `checksum`
 
 **Step 6.** After verify the checksum, merchant will continue to process the data.
-
-<Warning>
-KB2A server will not callback if transactions is expired.
-</Warning>
